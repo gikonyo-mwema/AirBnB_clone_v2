@@ -2,7 +2,7 @@
 """ DBStorage Module """
 
 from os import getenv
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, DateTime
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import BaseModel, Base
 
@@ -11,23 +11,34 @@ class DBStorage:
     """ DBStorage class """
     __engine = None
     __session = None
+    _FileStorage__objects = None
 
 
     def __init__(self):
         """ Initialization """
-        self._engine = create_engine('mysql+mysqldb://{}:{}@localhost/{}'.
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@localhost/{}'.
                                       format(getenv('HBNB_MYSQL_USER'),
                                              getenv('HBNB_MYSQL_PWD'),
                                              getenv('HBNB_MYSQL_DB')),
                                       pool_pre_ping=True)
+        self._FileStorage__objects = {}
 
         if getenv('HBNB_ENV') == 'test':
+
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """ Query all objects """
         result = {}
-        if cls:
+        if cls is None:
+            # Query all objects if no class is passed
+            for  cls in [State, City]:
+                objs = self.__session.query(cls).all()
+                for obj in objs:
+                    key = "{}.{}".format(type(obj).__name__, obj.id)
+                    result[key] = obj
+        else:
+            # Query objects of a specific class if a class is passed
             objs = self.__session.query(cls).all()
             for obj in objs:
                 key = "{}.{}".format(type(obj).__name__, obj.id)
