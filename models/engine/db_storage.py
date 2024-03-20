@@ -6,7 +6,8 @@ from sqlalchemy import create_engine, DateTime
 from sqlalchemy.orm import sessionmaker, scoped_session, relationship
 from models.base_model import BaseModel, Base
 from models.user import User
-from models.reveiw import Review
+from models.state import State
+from models.review import Review
 from models.place import Place
 from models.city import City
 from models.amenity import Amenity
@@ -31,15 +32,19 @@ class DBStorage:
 
     def all(self, cls=None):
         """ Query all objects """
+        classDict = {'City': City, 'State': State, 'User': User,
+                     'Place': Place, 'Review': Review, 'Amenity': Amenity}
         if cls is None:
-            objs = self.__session.query(State).all()
-            objs.extend(self.__session.query(City).all())
-        else:
-            # Query objects of a specific class if a class is passed
-            if isinstance(cls, str):
-                cls = eval(cls)
-            objs = self.__session.query(cls)
-        return {"{}.{}".format(type(o).__name__, o.id): o for o in objs}
+            objs = []
+            for className in classDict:
+                objs.extend(self.__session.query(classDict[className]).all())
+            else:
+                # Query objects of a specific class if a class is passed
+                if isinstance(cls, str):
+                    cls = classDict[cls]
+                    objs = self.__session.query(cls).all()
+                    return {"{}.{}".format(type(o).__name__, o.id): o
+                            for o in objs}
 
     def new(self, obj):
         """ Add object to current database session """
