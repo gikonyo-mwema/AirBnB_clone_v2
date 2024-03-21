@@ -1,21 +1,8 @@
 #!/usr/bin/python3
 """This module defines a class User"""
 from models.base_model import BaseModel, Base
-from models.review import Review
-from models.place import Place
-from sqlalchemy import Column, String
-from sqlalchemy.orm import relationship
-
-
-class User(BaseModel, Base):
-    """This class defines a user by various attributes"""
-
-    #!/usr/bin/python3
-"""This module defines a class User"""
-from models.base_model import BaseModel, Base
 from sqlalchemy import String, DateTime, Column, ForeignKey
 from sqlalchemy.orm import relationship
-#savepoint
 
 
 class User(BaseModel, Base):
