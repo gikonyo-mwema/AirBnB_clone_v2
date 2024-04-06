@@ -25,4 +25,4 @@ def do_pack():
     if result.failed:
         return None
     else:
-        return archive_path
+        return path
