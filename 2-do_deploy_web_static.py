@@ -23,7 +23,7 @@ def do_deploy(archive_path):
     try:
         # Upload the archive to the /tmp/ directory of the web server
         put(archive_path, '/tmp/')
-        
+
         # Uncompress the archive to the folder
         # /data/web_static/releases/<archive filename without extension>
         # on the web server
@@ -38,7 +38,7 @@ def do_deploy(archive_path):
         run("mv /data/web_static/releases/{}/web_static/* "
             "/data/web_static/releases/{}/".format(no_ext, no_ext))
 
-        # Delete the web_static subdirectory after moving the uncompressed files
+        # Delete the web_static subdirectory after moving uncompressed files
         run("rm -rf /data/web_static/releases/{}/web_static".format(no_ext))
 
         # Delete the archive from the web server
@@ -47,7 +47,7 @@ def do_deploy(archive_path):
         # Delete the symbolic link /data/web_static/current from the web server
         run("rm -rf /data/web_static/current")
 
-        # Create a new symbolic link /data/web_static/current on the web server,
+        # Create a new symbolic link /data/web_static/current on web server,
         # linked to the new version of your code
         # (/data/web_static/releases/<archive filename without extension>)
         run("ln -s /data/web_static/releases/{}/ "
