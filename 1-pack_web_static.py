@@ -19,16 +19,16 @@ def do_pack():
     timestr = datetime.now().strftime('%Y%m%d%H%M%S')
 
     # Create the archive
-    result = local(f'tar -cvzf versions/web_static_{timestr}.tgz web_static')
+    result = local('tar -cvzf versions/web_static_{0}.tgz web_static'.format(timestr))
 
-    path = f'versions/web_static_{timestr}.tgz'
+    path = 'versions/web_static_{0}.tgz'.format(timestr)
 
     # Check if the file exists before getting its size
     if os.path.exists(path):
         size = os.path.getsize(path)
-        print(f"web_static packed: {path} -> {size}Bytes")
+        print("web_static packed: {0} -> {1}Bytes".format(path, size))
     else:
-        print(f"Failed to create the archive at {path}")
+        print("Failed to create the archive at {0}".format(path))
 
     # Return the archive path if the archive has been generated
     if result.failed:
