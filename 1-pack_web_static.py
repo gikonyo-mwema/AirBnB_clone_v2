@@ -7,6 +7,7 @@ from fabric.api import local
 from datetime import datetime
 import os
 
+
 def do_pack():
     """
     Generate a .tgz archive
@@ -15,11 +16,12 @@ def do_pack():
     # Create the version directory if it doesn't exist
     local('mkdir -p versions')
 
-    # Generate the current time 
+    # Generate the current time
     timestr = datetime.now().strftime('%Y%m%d%H%M%S')
 
     # Create the archive
-    result = local('tar -cvzf versions/web_static_{0}.tgz web_static'.format(timestr))
+    result = local('tar -cvzf versions/web_static_{0}.tgz \
+    web_static'.format(timestr))
 
     path = 'versions/web_static_{0}.tgz'.format(timestr)
 
@@ -35,4 +37,3 @@ def do_pack():
         return None
     else:
         return path
-
