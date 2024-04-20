@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Script that starts a Flask web application.
+This module starts a Flask web application.
 """
 
 
@@ -89,7 +89,7 @@ def number_template(n):
     return render_template('5-number.html', n=n)
 
 
-@app.rout('/number_odd_or_even/<int:n>', strict_slashes=False)
+@app.route('/number_odd_or_even/<int:n>', strict_slashes=False)
 def number_odd_or_even(n):
     """
     Function associated with the '/number_odd_or_even/<n>' route
