@@ -10,4 +10,5 @@ class Amenity(BaseModel, Base):
     from models.place import place_amenity
     __tablename__ = "amenities"
     name = Column(String(128), nullable=False)
-    place_amenities = relationship("Place", secondary=place_amenity)
+    place_amenities = relationship("Place", secondary=place_amenity,
+                                   overlaps="amenities,places")

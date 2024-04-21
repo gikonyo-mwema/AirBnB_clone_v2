@@ -38,13 +38,14 @@ class DBStorage:
             objs = []
             for className in classDict:
                 objs.extend(self.__session.query(classDict[className]).all())
-            else:
-                # Query objects of a specific class if a class is passed
-                if isinstance(cls, str):
-                    cls = classDict[cls]
-                    objs = self.__session.query(cls).all()
-                    return {"{}.{}".format(type(o).__name__, o.id): o
-                            for o in objs}
+            return {"{}.{}".format(type(o).__name__, o.id): o for o in objs}
+        else:
+            # Query objects of a specific class if a class is passed
+            if isinstance(cls, str):
+                cls = classDict[cls]
+            objs = self.__session.query(cls).all()
+            return {"{}.{}".format(type(o).__name__, o.id): o
+                    for o in objs}
 
     def new(self, obj):
         """ Add object to current database session """
